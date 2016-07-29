@@ -1,0 +1,4 @@
+edifact:
+  parser:
+    dropLocation: drop/
+    outputLocation: out

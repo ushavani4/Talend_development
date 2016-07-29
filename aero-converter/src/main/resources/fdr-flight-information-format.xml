@@ -1,0 +1,278 @@
+<!-- not used in this project -->
+<iflirr>
+    <fdr maxOccurs="1">
+        <airlineInfo minOccurs="1" maxOccurs="1"></airlineInfo>
+        <carrierId minOccurs="1" maxOccurs="1"></carrierId>
+        <flightRef minOccurs="1" maxOccurs="1"></flightRef>
+        <flightNumber minOccurs="1" maxOccurs="1"></flightNumber>
+        <operationalSuffix minOccurs="0" maxOccurs="1"></operationalSuffix>
+        <departureDate minOccurs="1" maxOccurs="1"></departureDate>
+
+        <fdd minOccurs="1" maxOccurs="1">
+            <flightCharacteristics minOccurs="0" maxOccurs="5">INT</flightCharacteristics>
+        </fdd>
+        <ref minOccurs="1" maxOccurs="1">
+            <refDetails minOccurs="0" maxOccurs="6"></refDetails>
+            <qualifier minOccurs="0" maxOccurs="1"></qualifier>
+            <number minOccurs="0" maxOccurs="1"></number>
+        </ref>
+        <stx minOccurs="1" maxOccurs="1">
+            <statusInfo minOccurs="1" maxOccurs="99"></statusInfo>
+            <statusIndicator minOccurs="1" maxOccurs="1"></statusIndicator>
+        </stx>
+        <lts minOccurs="1" maxOccurs="1">
+            <massComment minOccurs="0" maxOccurs="1"></massComment>
+        </lts>
+        <ifd minOccurs="1" maxOccurs="1">
+            <reviewDate minOccurs="0" maxOccurs="1"></reviewDate>
+            <reviewTime minOccurs="0" maxOccurs="1"></reviewTime>
+            <controlType minOccurs="0" maxOccurs="1"></controlType>
+            <currencyCode minOccurs="0" maxOccurs="1"></currencyCode>
+            <isUnderActiveRevControl minOccurs="0" maxOccurs="1"></isUnderActiveRevControl>
+        </ifd>
+        <lts minOccurs="1" maxOccurs="1">
+            <userComment minOccurs="0" maxOccurs="1"></userComment>
+        </lts>
+        <flight-leg-info maxOccurs="9" minOccurs="9">
+            <!-- group 3 -->
+            <apd maxOccurs="1">
+                <legDetails minOccurs="1" maxOccurs="1">
+                    <leg minOccurs="1" maxOccurs="1"></leg>
+                    <boardPoint minOccurs="1" maxOccurs="1"></boardPoint>
+                    <offPoint minOccurs="1" maxOccurs="1"></offPoint>
+                </legDetails>
+                <departure>
+                    <station minOccurs="0" maxOccurs="1"></station>
+                </departure>
+                <arrival>
+                    <station minOccurs="0" maxOccurs="1"></station>
+                </arrival>
+                <dateTimeDetails minOccurs="0" maxOccurs="99">
+                    <qualifier maxOccurs="1" minOccurs="0"/>
+                    <firstDate maxOccurs="1" minOccurs="0"/>
+                    <firstTime maxOccurs="1" minOccurs="0"/>
+                </dateTimeDetails>
+                <stx minOccurs="99" maxOccurs="99">
+                    <statusIndicator maxOccurs="1" minOccurs="1"></statusIndicator>
+                    <actionRequest></actionRequest>
+                    <type></type>
+                </stx>
+                <eqp minOccurs="1" maxOccurs="1">
+                    <mode>
+                        <transport minOccurs="1" maxOccurs="1"></transport>
+                        <serviceType minOccurs="1" maxOccurs="1"></serviceType>
+                    </mode>
+                    <identificationInfo>
+                        <details minOccurs="1" maxOccurs="1"></details>
+                        <aircraftType minOccurs="1" maxOccurs="1"></aircraftType>
+                        <registrationNumber minOccurs="0" maxOccurs="1"></registrationNumber>
+                    </identificationInfo>
+                    <companyInfo>
+                        <details minOccurs="0" maxOccurs="1"></details>
+                        <aircraftOwner minOccurs="1" maxOccurs="1"></aircraftOwner>
+                    </companyInfo>
+                </eqp>
+                <eqi minOccurs="1" maxOccurs="1">
+                    <configuration>
+                        <fittedConfiguration></fittedConfiguration>
+                    </configuration>
+                    <additionalEqpInfo>
+                        <acvDetails></acvDetails>
+                        <acvCode></acvCode>
+                        <cabinCode></cabinCode>
+                        <cabinCapacity></cabinCapacity>
+                        <qualifier></qualifier>
+                    </additionalEqpInfo>
+                </eqi>
+                <eqd minOccurs="1" maxOccurs="1">
+                    <configuration>
+                        <configurationCode></configurationCode>
+                    </configuration>
+                </eqd>
+                <imd maxOccurs="1" minOccurs="0">
+                    <itemCharacteristicInfo>
+                        <itemCharacteristic></itemCharacteristic>
+                    </itemCharacteristicInfo>
+                </imd>
+                <special-service-requests maxOccurs="99" minOccurs="0">
+                    <!-- group4 -->
+                    <special-service-request maxOccurs="1" minOccurs="1">
+                        <ssrDetails></ssrDetails>
+                        <ssrType></ssrType>
+                        <ssrThreshold></ssrThreshold>
+                    </special-service-request>
+                    <eqn maxOccurs="1" minOccurs="1">
+                        <numberOfUnitDetails>
+                            <units></units>
+                            <qualifier></qualifier>
+                        </numberOfUnitDetails>
+                    </eqn>
+                    <sci maxOccurs="1" minOccurs="1">
+                        <cabinCode></cabinCode>
+                    </sci>
+                    <sdt maxOccurs="1" minOccurs="1">
+                        <selectionDetails>
+                            <optionCode></optionCode>
+                            <optionalInfo></optionalInfo>
+                        </selectionDetails>
+                    </sdt>
+
+                </special-service-requests>
+                <leg maxOccurs="1" minOccurs="1">
+                    <crossCabinInfo>
+                        <crossCabinConfiguration></crossCabinConfiguration>
+                        <crossCabinList  maxOccurs="99" minOccurs="0"> </crossCabinList>
+                        <crossCabinControls></crossCabinControls>
+                    </crossCabinInfo>
+                </leg>
+                <eqn maxOccurs="1" minOccurs="1">
+                    <numberOfUnitDetails>
+                        <units></units>
+                        <qualifier></qualifier>
+                    </numberOfUnitDetails>
+                </eqn>
+                <legCabins minOccurs="26" maxOccurs="26">
+                    <!-- group5 -->
+                    <eqi maxOccurs="1" minOccurs="1">
+                        <configuration>
+                            <fittedConfiguration></fittedConfiguration>
+                        </configuration>
+                        <additionalEqpInfo>
+                            <acvDetails></acvDetails>
+                            <acvCode></acvCode>
+                            <cabinCode></cabinCode>
+                            <cabinCapacity></cabinCapacity>
+                            <qualifier></qualifier>
+                        </additionalEqpInfo>
+                    </eqi>
+                        <cbl maxOccurs="1" minOccurs="1">
+                            <regradeAdjustment></regradeAdjustment>
+                            <maxiRegradeAdjustment></maxiRegradeAdjustment>
+                            <unbalancedAdjustment></unbalancedAdjustment>
+                            <groupsConstrainingYield></groupsConstrainingYield>
+                            <avsFlag></avsFlag>
+                            <notificationLevel></notificationLevel>
+                            <avpoolOffset></avpoolOffset>
+                            <avpool></avpool>
+                            <regradeCounter></regradeCounter>
+                            <blockSpace>
+                                <blockedSpaceDetails></blockedSpaceDetails>
+                                <blockSpaceType></blockSpaceType>
+                                <marketingFlightDesignator></marketingFlightDesignator>
+                                <numberSeatsBlocked></numberSeatsBlocked>
+                            </blockSpace>
+                        </cbl>
+                        <eqn maxOccurs="1" minOccurs="0">
+                            <numberOfUnitDetails>
+                                <units></units>
+                                <qualifier></qualifier>
+                            </numberOfUnitDetails>
+                        </eqn>
+                        <cba maxOccurs="1" minOccurs="0">
+                            <upr></upr>
+                            <bookingsCounter></bookingsCounter>
+                            <netAvailability></netAvailability>
+                            <grossAvailability></grossAvailability>
+                            <expectedToBoard></expectedToBoard>
+                            <staffStandbyCounter></staffStandbyCounter>
+                            <waitlistBookingsCounter></waitlistBookingsCounter>
+                            <groupBookingsCounter></groupBookingsCounter>
+                        </cba>
+                        <bpr maxOccurs="1" minOccurs="0"/>
+                        <buc maxOccurs="9999" minOccurs="0">
+                            <yieldRangeUpperValue></yieldRangeUpperValue>
+                            <av3></av3>
+                            <seatIndex></seatIndex>
+                        </buc>
+                        <eqn maxOccurs="1" minOccurs="0">
+                            <numberOfUnitDetails>
+                                <units></units>
+                                <qualifier></qualifier>
+                            </numberOfUnitDetails>
+                        </eqn>
+                </legCabins>
+                <atc>
+                    <attributeDetails></attributeDetails>
+                    <attributeType></attributeType>
+                    <attributeDescription></attributeDescription>
+                </atc>
+            </apd>
+        </flight-leg-info>
+        <segments minOccurs="45" maxOccurs="45">
+            <!-- group6 -->
+            <odi minOccurs="1" maxOccurs="1">
+                <departureCityCode></departureCityCode>
+                <arrivalCityCode></arrivalCityCode>
+            </odi>
+            <dat minOccurs="0" maxOccurs="1">
+                <dateTimeDetails minOccurs="0" maxOccurs="99">
+                    <qualifier maxOccurs="1" minOccurs="0"/>
+                    <firstDate maxOccurs="1" minOccurs="0"/>
+                    <firstTime maxOccurs="1" minOccurs="0"/>
+                </dateTimeDetails>
+            </dat>
+            <car minOccurs="0" maxOccurs="1">
+                <codeshareDetails>
+                    <transportStageQualifier></transportStageQualifier>
+                    <airlineDesignator></airlineDesignator>
+                    <flightNumber></flightNumber>
+                    <operationalSuffix></operationalSuffix>
+                    <codeshareType></codeshareType>
+                </codeshareDetails>
+                <otherCodeshareDetails>
+                    <transportStageQualifier></transportStageQualifier>
+                    <airlineDesignator></airlineDesignator>
+                    <flightNumber></flightNumber>
+                    <operationalSuffix></operationalSuffix>
+                    <codeshareType></codeshareType>
+                </otherCodeshareDetails>
+            </car>
+                <tre minOccurs="0" maxOccurs="1"/>
+                <trf minOccurs="0" maxOccurs="1"/>
+                <stx minOccurs="1" maxOccurs="1"/>
+                <cabin-segments minOccurs="26" maxOccurs="26">
+                    <!-- group7 -->
+                    <sci minOccurs="1" maxOccurs="1">
+                        <eqn minOccurs="0" maxOccurs="1"/>
+                        <tbu minOccurs="1" maxOccurs="1"/>
+                        <booking-classes minOccurs="99" maxOccurs="99">
+                            <!-- group8 -->
+                            <pdi minOccurs="1" maxOccurs="1">
+                                <cla minOccurs="1" maxOccurs="1"/>
+                                <eqn minOccurs="1" maxOccurs="1"/>
+                                <group9 minOccurs="0" maxOccurs="99">
+                                    <car minOccurs="1" maxOccurs="1">
+                                        <eqn minOccurs="0" maxOccurs="1"/>
+                                    </car>
+                                </group9>
+                                <booking-sub-classes minOccurs="0" maxOccurs="99">
+                                    <sbi minOccurs="1" maxOccurs="1">
+                                        <eqn minOccurs="0" maxOccurs="1"/>
+                                        <sbc minOccurs="0" maxOccurs="1"/>
+                                        <mon minOccurs="0" maxOccurs="1"/>
+                                        <atc minOccurs="0" maxOccurs="1"/>
+                                        <negotiation-block-details minOccurs="0" maxOccurs="99">
+                                            <eqn minOccurs="1" maxOccurs="1">
+                                                <ati minOccurs="0" maxOccurs="1"/>
+                                                <rci minOccurs="0" maxOccurs="1"/>
+                                            </eqn>
+                                        </negotiation-block-details>
+                                    </sbi>
+                                </booking-sub-classes>
+                            </pdi>
+                        </booking-classes>
+                        <segment-cabin-block-space minOccurs="0" maxOccurs="99">
+                            <!-- group12 -->
+                            <car minOccurs="1" maxOccurs="1">
+                                <eqn minOccurs="1" maxOccurs="1"/>
+                            </car>
+                        </segment-cabin-block-space>
+                    </sci>
+                </cabin-segments>
+        </segments>
+        <stx minOccurs="1" maxOccurs="1"/>
+        <tra minOccurs="0" maxOccurs="1"/>
+        <sdt minOccurs="0" maxOccurs="1"/>
+        <dat minOccurs="0" maxOccurs="1"/>
+    </fdr>
+</iflirr>
