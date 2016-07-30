@@ -1,0 +1,66 @@
+https://help.talend.com/display/KB/Sharing+database+connection+between+parent+job+and+child+job
+
+https://help.talend.com/display/TalendComponentsReferenceGuideFall1EN/tELTOracleMap
+
+https://help.talend.com/display/KB/Calling+a+stored+procedure+or+function?thc_login=done
+
+SELECT *
+FROM A
+LEFT OUTER JOIN B
+    ON A.Id = B.ParentID
+LEFT OUTER JOIN C
+    ON A.Id = C.ParentID
+    LEFT OUTER JOIN P
+        ON C.Id = P.ParentID
+    LEFT OUTER JOIN Q
+        ON C.Id = Q.ParentID
+LEFT OUTER JOIN D
+    ON A.Id = D.ParentID
+LEFT OUTER JOIN E
+    ON A.Id = E.ParentID
+LEFT OUTER JOIN F
+    ON A.Id = F.ParentID
+    LEFT OUTER JOIN X
+        ON F.Id = X.ParentID
+    LEFT OUTER JOIN Y
+        ON F.Id = Y.ParentID
+LEFT OUTER JOIN G
+    ON A.Id = G.ParentID
+
+
+select <wanted columns>
+from a
+left join b
+on a.id = b.a_id
+left join c
+on a.id = c.a_id
+left join d
+on a.id = d.a_id
+
+http://bekwam.blogspot.in/2012/02/calling-stored-procedure-from-talend.html
+
+http://www.vikramtakkar.com/2012/12/extracting-data-from-database-tables.html
+
+http://stackoverflow.com/questions/14151091/join-multiple-tables-using-single-transformation-using-ssis-2008
+
+https://www.simple-talk.com/sql/ssis/ssis-basics-using-the-merge-join-transformation/
+
+SELECT p.Name, v.Name
+FROM Production.Product p
+JOIN Purchasing.ProductVendor pv
+ON p.ProductID = pv.ProductID
+JOIN Purchasing.Vendor v
+ON pv.BusinessEntityID = v.BusinessEntityID
+WHERE ProductSubcategoryID = 15
+ORDER BY v.Name;
+
+
+
+select * from Employee inner join [Order] 
+On Employee.Employee_id=[Order].Employee_id
+inner join Book 
+On Book.Book_id=[Order].Book_id
+inner join Book_Author
+On Book_Author.Book_id=Book.Book_id
+inner join Author
+On Book_Author.Author_id=Author.Author_id;
