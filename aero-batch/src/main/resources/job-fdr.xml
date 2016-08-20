@@ -12,7 +12,7 @@
     <batch:job id="fdrDataLoadJob" job-repository="jobRepository">
         <batch:step id="fdrDataLoad">
             <batch:tasklet>
-                <batch:chunk reader="multiFileReader" writer="fdrMessageWriter" commit-interval="100"/>
+                <batch:chunk reader="multiFileReader" writer="fdrMessageWriter" commit-interval="1"/>
             </batch:tasklet>
         </batch:step>
     </batch:job>

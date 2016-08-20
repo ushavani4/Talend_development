@@ -46,7 +46,6 @@ public abstract class EdifactMessageMapper {
         }
 
         this.parserContext = getParserContext();
-        List<Object> contentSequence = this.parserContext.getContentSequence();
 
         Map<String, SegmentToValue> config = Maps.newHashMap();
 
@@ -74,7 +73,6 @@ public abstract class EdifactMessageMapper {
 
             segCode = findSegCode(line);
 
-            //SegmentType segmentType = parserContext.findSegment(segCode, parent.getNode());
             SegmentType segmentType = parserContext.ngram(segCode, parent.getNode(), incomingSegments, 1);
 
             if(segmentType != null) {
