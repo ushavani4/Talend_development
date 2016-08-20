@@ -1,0 +1,17 @@
+aero:
+  batch:
+    dropZone: /Users/nairr5/workspace/aero.ws/aero-batch/drop-zone
+    fileNamePattern: "*.DATA"
+    outZone: /Users/nairr5/workspace/aero.ws/aero-batch/out-zone
+    fdrMappingFile: /Users/nairr5/workspace/aero.ws/aero-batch/src/main/resources/fdr-edi-config.xml
+    terminator:
+      segmentTerminator: \x1C
+      componentTerminator: \x1D
+      elementTerminator: \x1F
+
+spring:
+  batch:
+    job:
+      enabled: false
+  datasource:
+    initialize: false

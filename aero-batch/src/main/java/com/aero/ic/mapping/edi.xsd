@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:edi="http://www.aero-ic.com/edi/mapping/edi.xsd"
+           targetNamespace="http://www.aero-ic.com/edi/mapping/edi.xsd">
+  <xs:element name="edi-mapping">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element name="meta" maxOccurs="1" minOccurs="1" type="edi:meta_type"/>
+        <xs:element name="container" maxOccurs="1" minOccurs="1" type="edi:container_type"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="meta_type" mixed="false">
+    <xs:sequence>
+      <xs:element name="terminator">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="segmentTerm" type="xs:string"/>
+            <xs:element name="field" type="xs:string"/>
+            <xs:element name="component" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+    </xs:sequence>
+  </xs:complexType>
+
+    <xs:complexType name="container_type" mixed="false">
+      <xs:sequence>
+        <xs:element name="headerSegment" type="edi:segment_type" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="segmentGroup" type="edi:segmentGroup_type"/>
+        <xs:element name="trailerSegment" type="edi:segment_type" maxOccurs="1" minOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="type" type="xs:string"/>
+    </xs:complexType>
+
+  <xs:complexType name="segmentGroup_type" mixed="false">
+    <xs:sequence>
+      <xs:element name="segment" type="edi:segment_type" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="property-name" type="xs:string" use="required"/>
+    <xs:attribute name="path" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="segment_type" mixed="false">
+    <xs:sequence>
+        <xs:element name="field" minOccurs="0" maxOccurs="unbounded" type="edi:field_type"/>
+        <xs:element name="segment" minOccurs="0" maxOccurs="unbounded" type="edi:segment_type"/>
+        <xs:element name="segmentGroup" minOccurs="0" maxOccurs="unbounded" type="edi:segmentGroup_type"/>
+    </xs:sequence>
+    <xs:attribute type="xs:int" name="minOccurs" use="required"/>
+    <xs:attribute type="xs:int" name="maxOccurs" use="required"/>
+    <xs:attribute type="xs:string" name="id" use="required"/>
+    <xs:attribute type="xs:string" name="code" use="required"/>
+    <xs:attribute type="xs:string" name="type" use="required"/>
+    <xs:attribute type="xs:boolean" name="header" use="optional" default="false"/>
+    <xs:attribute type="xs:boolean" name="trailer" use="optional" default="false"/>
+    <xs:attribute type="xs:boolean" name="message" use="optional" default="false"/>
+    <xs:attribute type="xs:string" name="property-name" use="optional"/>
+    <xs:attribute name="path" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="field_type" mixed="false">
+    <xs:sequence>
+      <xs:element name="components" maxOccurs="1" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="component" type="edi:component_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:int" name="minOccurs" use="required"/>
+    <xs:attribute type="xs:int" name="maxOccurs" use="required"/>
+    <xs:attribute type="xs:string" name="value" use="optional"/>
+    <xs:attribute type="xs:boolean" name="enumerated" use="optional"/>
+    <xs:attribute type="xs:string" name="ref" use="optional"/>
+    <xs:attribute type="xs:string" name="property-name" use="optional"/>
+    <xs:attribute type="xs:string" name="type" use="optional"/>
+    <xs:attribute type="xs:integer" name="repeats" use="optional"/>
+    <xs:attribute type="xs:string" name="formatter" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="component_type" mixed="false">
+    <xs:sequence>
+      <xs:element name="value" type="xs:string" maxOccurs="1" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="property-name" type="xs:string" use="optional"/>
+    <xs:attribute name="type" type="xs:string" use="optional"/>
+  </xs:complexType>
+</xs:schema>
