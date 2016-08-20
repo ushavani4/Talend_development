@@ -3,5 +3,4 @@ logs
 out-zone/*
 *.iml
 .idea
-*.json
 target
