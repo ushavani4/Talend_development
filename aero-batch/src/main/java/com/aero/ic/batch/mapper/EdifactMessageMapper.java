@@ -3,14 +3,15 @@ package com.aero.ic.batch.mapper;
 import com.aero.ic.batch.context.ParserContext;
 import com.aero.ic.batch.context.SegmentToValue;
 import com.aero.ic.batch.exception.BatchException;
-import com.aero.ic.mapping.*;
+import com.aero.ic.mapping.EdiMapping;
+import com.aero.ic.mapping.SegmentGroupType;
+import com.aero.ic.mapping.SegmentType;
 import com.aero.ic.message.base.EdifactMessage;
 import com.aero.ic.message.base.EdifactSegment;
+import com.aero.ic.message.base.EdifactSegmentFactory;
 import com.aero.ic.message.base.EdifactSegmentGroup;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.jxpath.JXPathContext;
@@ -30,11 +31,11 @@ public abstract class EdifactMessageMapper {
 
     private static final String CONTAINER_PATH = "/edi-mapping/container";
 
-    private ParserContext parserContext;
+    private EdifactSegmentFactory edifactSegmentFactory = EdifactSegmentFactory.newInstance();
 
 
-    public EdifactMessageMapper() {
-
+    public void setEdifactSegmentFactory(EdifactSegmentFactory edifactSegmentFactory) {
+        this.edifactSegmentFactory = edifactSegmentFactory;
     }
 
     public abstract ParserContext getParserContext();
@@ -45,40 +46,43 @@ public abstract class EdifactMessageMapper {
             return null;
         }
 
-        this.parserContext = getParserContext();
+        ParserContext parserContext = getParserContext();
 
         Map<String, SegmentToValue> config = Maps.newHashMap();
 
-        JXPathContext mappingContext = this.parserContext.getMappingContext();
+        JXPathContext mappingContext = parserContext.getMappingContext();
 
-        EdifactMessage container = this.parserContext.getContainer();
-        EdiMapping mapping = this.parserContext.getEdiMapping();
+        EdifactMessage container = parserContext.getContainer();
+
+        EdiMapping mapping = parserContext.getEdiMapping();
 
         config.put(CONTAINER_PATH, new SegmentToValue(this.findNode(mappingContext, CONTAINER_PATH), container));
 
-        SegmentGroupType segmentGroupType = mapping.getContainer().getSegmentGroup();
+        SegmentGroupType firstGroup = mapping.getContainer().getSegmentGroup();
 
-        EdifactSegmentGroup edifactSegmentGroup = this.getInstance(segmentGroupType);
+        EdifactSegmentGroup edifactSegmentGroup = this.getInstance(firstGroup);
 
-        config.put(segmentGroupType.getPath() + "/segmentGroup[@id='" + segmentGroupType.getId() + "']", new SegmentToValue(segmentGroupType, edifactSegmentGroup));
+        config.put(firstGroup.getPath() + "/segmentGroup[@id='" + firstGroup.getId() + "']", new SegmentToValue(firstGroup, edifactSegmentGroup));
 
-        PropertyUtils.setProperty(container, segmentGroupType.getPropertyName(), edifactSegmentGroup);
+        PropertyUtils.setProperty(container, firstGroup.getPropertyName(), edifactSegmentGroup);
 
-        String segCode = null;
+        String segCode;
         SegmentToValue parent = config.get(CONTAINER_PATH);
 
         List<SegmentType> incomingSegments = Lists.newArrayList();
+        Object value;
+        EdifactSegmentGroup segmentGroupInstance;
+        SegmentGroupType segmentGroupType;
 
         for (String line : lines) {
 
-            segCode = findSegCode(line);
-
+            segCode = this.findSegmentCode(line);
             SegmentType segmentType = parserContext.ngram(segCode, parent.getNode(), incomingSegments, 1);
 
             if(segmentType != null) {
                 incomingSegments.add(segmentType);
-                this.parse(segmentType, segCode, line);
-                Object value = this.getInstance(segmentType);
+
+                value = this.parse(segmentType, segCode, line);
                 String path = segmentType.getPath();
                 parent = config.get(path);
                 if(parent == null) {
@@ -86,10 +90,10 @@ public abstract class EdifactMessageMapper {
                     //add it to the config map
                     Object o = findNode(mappingContext, path);
                     if(o instanceof SegmentGroupType) {
-                        SegmentGroupType type = (SegmentGroupType) o;
-                        EdifactSegmentGroup typeInstance = getInstance(type);
-                        config.put(path, new SegmentToValue(type, typeInstance));
-                        PropertyUtils.setProperty(config.get(type.getPath()).getInstance(), type.getPropertyName(), typeInstance);
+                        segmentGroupType = (SegmentGroupType) o;
+                        segmentGroupInstance = getInstance(segmentGroupType);
+                        config.put(path, new SegmentToValue(segmentGroupType, segmentGroupInstance));
+                        PropertyUtils.setProperty(config.get(segmentGroupType.getPath()).getInstance(), segmentGroupType.getPropertyName(), segmentGroupInstance);
                         parent = config.get(path);
                     } else {
                         throw new BatchException("Parent not found in the node mapping");
@@ -112,9 +116,7 @@ public abstract class EdifactMessageMapper {
                 } else {
                     throw new BatchException("Parent not found for [" + segmentType.getCode() + "] path [" + segmentType.getPath() + "]");
                 }
-
             }
-
         }
         return container;
     }
@@ -127,42 +129,13 @@ public abstract class EdifactMessageMapper {
         return context.getValue(path);
     }
 
-
-    private EdifactSegment getInstance(SegmentType segmentType) throws Exception {
-        EdifactSegment edifactSegment = (EdifactSegment) Class.forName(segmentType.getType()).newInstance();
-        edifactSegment.setSegmentCode(segmentType.getCode());
-        edifactSegment.setId(segmentType.getId());
-
-        List<FieldType> fields = segmentType.getField();
-        if(CollectionUtils.isNotEmpty(fields)) {
-            for (FieldType fieldType : fields) {
-                Object field = Class.forName(fieldType.getType()).newInstance();
-                FieldType.Components components = fieldType.getComponents();
-                if(components != null) {
-                    List<ComponentType> componentTypes = components.getComponent();
-                    if(componentTypes != null) {
-                        for (ComponentType c : componentTypes) {
-                            PropertyUtils.setProperty(field, c.getPropertyName(), c.getValue());
-                        }
-                    }
-                } else if(field instanceof String) {
-                    //this is simple field without sub components
-                    field = fieldType.getValue();
-                }
-                PropertyUtils.setProperty(edifactSegment, fieldType.getPropertyName(), field);
-            }
-        }
-
-        return edifactSegment;
-    }
-
     private EdifactSegmentGroup getInstance(SegmentGroupType sgtype) {
         EdifactSegmentGroup esg = new EdifactSegmentGroup();
         esg.setId(sgtype.getId());
         return esg;
     }
 
-    private String findSegCode(String l) {
+    private String findSegmentCode(String l) {
         int segmentTerminatorIndex = l.indexOf("+");
         if(segmentTerminatorIndex >= 0) {
             return StringUtils.substring(l, 0, segmentTerminatorIndex);
@@ -171,127 +144,7 @@ public abstract class EdifactMessageMapper {
         }
     }
 
-    private void parse(SegmentType segmentType, String segCode, String line) throws Exception {
-        this.toSegment(segmentType, line, segCode);
-        this.parse(segmentType);
-    }
-
-    protected abstract void parse(SegmentType segmentType);
-
-    private void toSegment(SegmentType segmentType, String s, String segCode) {
-        try {
-            log.debug("Parsing seg code [" + segCode + "]");
-            String scopy = new String(s);
-
-            //find starting segment code
-            //find next terminiator + or :
-            //if + then take as field
-            //if : then add as component(s) till find another + or \n
-
-            if (segmentType == null) {
-                segmentType = new SegmentType();
-            }
-            if (s.startsWith(segCode)) {
-
-                //mapping.setCode(segCode);
-
-                s = StringUtils.removeStart(s, segCode);
-                s = StringUtils.removeStart(s, "+");
-
-                int elementTerminatorIdx = s.indexOf("+");
-                int componentTerminatorIdx = s.indexOf(":");
-
-                String value = null;
-                FieldType lastField = null;
-                int fieldIndex = 0;
-
-                if (elementTerminatorIdx == -1 && componentTerminatorIdx == -1) {
-                    //this is an empty segment, set the segcode and continue
-                    if (StringUtils.isEmpty(s)) {
-                        return;
-                    } else {
-                        //STX+ACT - in this case the index of + and : will be -1, but there is one element after segcode
-                        if (segmentType.getField() != null) {
-                            FieldType fieldType = segmentType.getField().get(fieldIndex);
-                            if (fieldType != null && fieldType.getComponents() != null) {
-                                fieldType.getComponents().getComponent().get(0).setValue(s);
-                            }
-                        }
-                        return;
-                    }
-                }
-
-                while (StringUtils.isNotEmpty(s)) {
-                    if (elementTerminatorIdx != -1 && (elementTerminatorIdx < componentTerminatorIdx || componentTerminatorIdx == -1)) {
-                        // contains fields
-                        value = StringUtils.substring(s, 0, elementTerminatorIdx);
-                        lastField = segmentType.getField().get(fieldIndex++);
-                        if (lastField.getComponents() != null && lastField.getComponents().getComponent() != null) {
-                            lastField.getComponents().getComponent().get(0).setValue(value);
-                        } else {
-                            lastField.setValue(value);
-                        }
-                        s = StringUtils.substring(s, elementTerminatorIdx + 1);
-                    } else if (componentTerminatorIdx != -1 && (elementTerminatorIdx == -1 || componentTerminatorIdx < elementTerminatorIdx)) {
-                        // contains subcomponents, add it to last field
-                        //find any elementTerminator greater than componentTerminator to handle 0:0+0:0:0:0:0:0:0+L0+0:0:0
-                        int nextElementTerminatorIndex = s.indexOf("+");
-                        String componentString = null;
-
-                        if (nextElementTerminatorIndex == -1) {
-                            //that means no more + in this line. To split components, take the full string
-                            componentString = new String(s);
-                            s = "";
-                        } else {
-                            componentString = s.substring(0, nextElementTerminatorIndex);
-                            s = StringUtils.substring(s, nextElementTerminatorIndex + 1, s.length());
-                        }
-
-                        String[] components = componentString.split(":");
-                        if (segmentType.getField() != null && segmentType.getField().size() > fieldIndex) {
-                            lastField = segmentType.getField().get(fieldIndex);
-                        }
-                        fieldIndex++;
-
-                        int cindex = 0;
-                        for (String c : components) {
-                            lastField.getComponents().getComponent().get(cindex++).setValue(c);
-                        }
-                    } else {
-                        //still contains an element after + or :, see whats the last terminator in the original line scopy
-                        //if its + then add it as new element else add it as new component
-                        if (StringUtils.isNotEmpty(s)) {
-                            //in the scopy search from end and find the terminator before the current element
-                            int lastTerminatorIdx = scopy.lastIndexOf(s) - 1;
-
-                            if (lastTerminatorIdx >= 0 && scopy.toCharArray()[lastTerminatorIdx] == ':') {
-                                //TODO: this is wrong, the fieldIndex is to traverse fields not component
-                                //this is a last component, keep track of component index and set it
-                                //or should we require this?, if it was not + as the last terminator we will not reach here
-                                lastField.getComponents().getComponent().get(fieldIndex++).setValue(s);
-                            } else if (lastTerminatorIdx >= 0) {
-                                //this is next field
-                                lastField = segmentType.getField().get(fieldIndex);
-                                log.trace("Setting Field [" + lastField.getPropertyName() + "] under [" + segmentType.getCode() + "] fieldIndex [" + fieldIndex + "]");
-                                fieldIndex++;
-                                if (lastField.getComponents() != null && lastField.getComponents().getComponent() != null) {
-                                    log.trace("Last field, setting it to first component [" + lastField.getComponents().getComponent().get(0).getPropertyName() + "]");
-                                    lastField.getComponents().getComponent().get(0).setValue(s);
-                                } else {
-                                    log.trace("No components, setting it to field [" + lastField.getPropertyName() + "]");
-                                    lastField.setValue(s);
-                                }
-                            }
-                        }
-                        s = "";
-                    }
-
-                    elementTerminatorIdx = s.indexOf("+");
-                    componentTerminatorIdx = s.indexOf(":");
-                }
-            }
-        } catch (Exception e) {
-            log.error("Caught exception ", e);
-        }
+    private EdifactSegment parse(SegmentType segmentType, String segCode, String line) throws Exception {
+       return this.edifactSegmentFactory.createSegment(segmentType, segCode, line);
     }
 }

@@ -35,7 +35,7 @@
     <bean id="fdrParserContext" class="com.aero.ic.batch.context.ParserContext" p:ediMappingConfig="#{aeroApplicationConfig.fdrMappingFile}"/>
 
     <bean id="fdrMessageWriter" class="com.aero.ic.fdr.writer.FDRMessageWriter"
-          p:encoding="UTF-8" p:resource="file://#{aeroApplicationConfig.outZone}" p:writeJson="true" />
+          p:encoding="UTF-8" p:resource="file://#{aeroApplicationConfig.outZone}" p:writeXml="true"/>
 
     <bean id="fdrLineAggregator" class="org.springframework.batch.item.file.transform.PassThroughLineAggregator"/>
 </beans>

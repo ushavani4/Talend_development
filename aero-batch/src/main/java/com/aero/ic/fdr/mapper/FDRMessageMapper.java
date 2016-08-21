@@ -41,10 +41,6 @@ public class FDRMessageMapper extends EdifactMessageMapper {
         return parserContext;
     }
 
-    @Override
-    protected void parse(SegmentType segmentType) {
-
-    }
 
     public void setParserContext(ParserContext parserContext) {
         this.parserContext = parserContext;

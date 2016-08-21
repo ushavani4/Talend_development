@@ -5,9 +5,12 @@ import com.aero.ic.fdr.message.stx.STX;
 import com.aero.ic.message.base.EdifactSegment;
 import com.aero.ic.message.base.EdifactSegmentGroup;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Created by nairr5 on 7/30/16.
  */
+@XmlRootElement
 public class FDRMessage extends EdifactSegment {
 
     private OutBoundCarrier outBoundCarrier = new OutBoundCarrier();;
