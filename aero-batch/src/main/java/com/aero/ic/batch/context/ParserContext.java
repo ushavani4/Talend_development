@@ -172,6 +172,9 @@ public class ParserContext {
         return null;
     }
 
+    public List<SegmentType> findAnywhereInConfig(String code) {
+        return this.segmentSequence.stream().filter(s -> StringUtils.equalsIgnoreCase(s.getCode(), code)).collect(Collectors.toList());
+    }
 
 
     public SegmentType ngram(String code, Object parent, List<SegmentType> previous, int n) {
@@ -179,8 +182,16 @@ public class ParserContext {
 
         List<SegmentType> children = this.findSegments(code, parent);
         if(CollectionUtils.isEmpty(children)) {
-            log.warn("Found no segments matching code [" + code + "] under parent [" + parent + "]");
-            return null;
+            log.info("Found no segments matching code [" + code + "] under parent [" + parent + "], check whether this a different branch");
+            SegmentType lastSegment = previous.get(previous.size() - 1);
+
+            //this may be a different branch, so this segment will not be under specified parameter - parent
+            //check whether the segcode sequence is as expected
+            children = this.findAnywhereInConfig(code);
+            if(CollectionUtils.isEmpty(children)) {
+                log.warn("Found no segments matching code [" + code + "] under any of the parents");
+                return null;
+            }
         }
         log.debug("Found [" + children.size() + "] segments matching code [" + code + "] under parent [" + parent + "]");
 

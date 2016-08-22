@@ -399,4 +399,8 @@ public class SegmentType {
         this.path = value;
     }
 
+    @Override
+    public String toString() {
+        return this.code + ":" + this.id;
+    }
 }

@@ -3,6 +3,7 @@ package com.aero.ic.fdr.message.odi;
 import com.aero.ic.fdr.message.dat.DatOdi;
 import com.aero.ic.fdr.message.stx.StxOdi;
 import com.aero.ic.message.base.EdifactSegment;
+import com.aero.ic.message.base.EdifactSegmentGroup;
 
 /**
  * Created by nairr5 on 8/21/16.
@@ -16,6 +17,16 @@ public class ODI extends EdifactSegment {
     private DatOdi segmentTiming;
 
     private StxOdi segmentFlags;
+
+    private EdifactSegmentGroup sciGroup;
+
+    public EdifactSegmentGroup getSciGroup() {
+        return sciGroup;
+    }
+
+    public void setSciGroup(EdifactSegmentGroup sciGroup) {
+        this.sciGroup = sciGroup;
+    }
 
     public DatOdi getSegmentTiming() {
         return segmentTiming;

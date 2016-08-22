@@ -362,6 +362,8 @@
                             </field>
                         </segment>
 
+                        <!-- CAR, TRF is empty -->
+
                         <segment minOccurs="1" maxOccurs="1" id="stx-00.2.7" code="STX" type="com.aero.ic.fdr.message.stx.StxOdi" property-name="segmentFlags" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']">
                             <field property-name="statusInformation" type="com.aero.ic.fdr.message.StatusInformation" minOccurs="1" maxOccurs="99">
                                 <components>
@@ -372,13 +374,62 @@
                                 </components>
                             </field>
                         </segment>
-                        
+
                         <segmentGroup id="sg7" property-name="sciGroup" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']">
-                            
+                            <segment minOccurs="1" maxOccurs="1" id="sci-06.1.15" code="SCI" type="com.aero.ic.fdr.message.sci.SCI" property-name="sci" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']/segmentGroup[@id='sg7']">
+                                <field property-name="cabinCode" type="java.lang.String" minOccurs="0" maxOccurs="1"/>
+                                <field property-name="waitListMax" type="java.lang.String" minOccurs="0" maxOccurs="1"/>
+                                <field property-name="upr" type="java.lang.String" minOccurs="0" maxOccurs="1"/>
+                                <field property-name="bookingsCounter" type="java.lang.String" minOccurs="0" maxOccurs="1"/>
+                                <field property-name="waitList" type="java.lang.String" minOccurs="0" maxOccurs="1"/>
+                                <field property-name="expectedToBoard" type="java.lang.String" minOccurs="0" maxOccurs="1"/>
+                                <field property-name="staffStandbyCounter" type="java.lang.String" minOccurs="0" maxOccurs="1"/>
+                                <field property-name="staffStandbyMax" type="java.lang.String" minOccurs="0" maxOccurs="1"/>
+
+                                <segment minOccurs="0" maxOccurs="1" id="eqn-98.1.19" code="EQN" type="com.aero.ic.fdr.message.eqn.EQN98119" property-name="eqnSci" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']/segmentGroup[@id='sg7']/segment[@id='sci-06.1.15']">
+                                    <field type="com.aero.ic.fdr.message.eqn.NumberOfUnitsDetails" property-name="numberOfUnitsDetails" minOccurs="0" maxOccurs="99">
+                                        <components>
+                                            <component property-name="numberOfUnits" type="java.lang.String"/>
+                                            <component property-name="numberOfUnitsQualifier" type="java.lang.String"/>
+                                        </components>
+                                    </field>
+                                </segment>
+                                <!-- TBU is empty -->
+
+                                <segmentGroup id="sg8" property-name="pdiGroup" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']/segmentGroup[@id='sg7']/segment[@id='sci-06.1.15']">
+                                    <segment minOccurs="0" maxOccurs="1" id="pdi-99.2.21" code="PDI" type="com.aero.ic.fdr.message.pdi.PDI" property-name="bookingClassDetails" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']/segmentGroup[@id='sg7']/segment[@id='sci-06.1.15']/segmentGroup[@id='sg8']">
+                                        <field type="java.lang.String" property-name="productDetails" minOccurs="0" maxOccurs="1"/>
+                                        <field type="com.aero.ic.fdr.message.pdi.BookingClassDetails" property-name="bookingClassDetails" minOccurs="1" maxOccurs="1">
+                                            <components>
+                                                <component property-name="bookingClassDesignator" type="java.lang.String"/>
+                                                <component property-name="availabilityStatus" type="java.lang.String"/>
+                                            </components>
+                                        </field>
+                                        <segment minOccurs="1" maxOccurs="1" id="cla-02.1.12" code="CLA" type="com.aero.ic.fdr.message.cla.CLA" property-name="bkgClassDetails" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']/segmentGroup[@id='sg7']/segment[@id='sci-06.1.15']/segmentGroup[@id='sg8']/segment[@id='pdi-99.2.21']">
+                                            <field type="java.lang.String" property-name="receivedAvsStatus" minOccurs="1" maxOccurs="1"/>
+                                            <field type="java.lang.String" property-name="flags" minOccurs="0" maxOccurs="5"/>
+                                        </segment>
+                                        <segment minOccurs="0" maxOccurs="1" id="eqnpdi-98.1.19" code="EQN" type="com.aero.ic.fdr.message.eqn.EqnPdi" property-name="boardingFiguresDcs" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']/segmentGroup[@id='sg7']/segment[@id='sci-06.1.15']/segmentGroup[@id='sg8']/segment[@id='pdi-99.2.21']">
+                                            <field type="com.aero.ic.fdr.message.eqn.NumberOfUnitsDetails" property-name="numberOfUnitsDetails" minOccurs="0" maxOccurs="99">
+                                                <components>
+                                                    <component property-name="numberOfUnits" type="java.lang.String"/>
+                                                    <component property-name="numberOfUnitsQualifier" type="java.lang.String"/>
+                                                </components>
+                                            </field>
+                                        </segment>
+                                        <!-- Group 9 is empty -->
+                                        <!-- Group 10 - SBI M 99 -->
+                                        <segmentGroup id="sg10" property-name="sbiGroup" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']/segmentGroup[@id='sg7']/segment[@id='sci-06.1.15']/segmentGroup[@id='sg8']/segment[@id='pdi-99.2.21']">
+                                            <segment minOccurs="0" maxOccurs="1" id="sbi-02.1.10" code="SBI" type="com.aero.ic.fdr.message.sbi.SBI" property-name="subclass" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']/segmentGroup[@id='sg7']/segment[@id='sci-06.1.15']/segmentGroup[@id='sg8']/segment[@id='pdi-99.2.21']/segmentGroup[@id='sg10']">
+                                                <field type="java.lang.String" property-name="subclassId" minOccurs="0" maxOccurs="1"/>
+                                            </segment>
+                                        </segmentGroup>
+                                    </segment>
+                                </segmentGroup>
+                            </segment>
                         </segmentGroup>
                     </segment>
                 </segmentGroup>
-
             </segment>
         </segmentGroup>
         <trailerSegment id="unt" code="UNT" minOccurs="1" maxOccurs="1" trailer="true" type="com.aero.ic.message.base.trailer.MessageTrailer" property-name="messageTrailer" path="/edi-mapping/container">

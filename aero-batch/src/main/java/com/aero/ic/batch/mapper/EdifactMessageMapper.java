@@ -96,7 +96,7 @@ public abstract class EdifactMessageMapper {
                         PropertyUtils.setProperty(config.get(segmentGroupType.getPath()).getInstance(), segmentGroupType.getPropertyName(), segmentGroupInstance);
                         parent = config.get(path);
                     } else {
-                        throw new BatchException("Parent not found in the node mapping");
+                        throw new BatchException("Parent not found in the node mapping for code [" + segCode + "] with path [" + path + "]");
                     }
                 }
 
