@@ -23,6 +23,8 @@ public class DefaultEdifactMessageReader implements EdifactMessageReader {
 
     private Scanner scanner;
 
+    private boolean alreadyRead = false;
+
     public DefaultEdifactMessageReader(Resource resource, EdifactTerminatorPolicy policy, String encoding) throws IOException {
         this.policy = policy;
 
@@ -34,6 +36,10 @@ public class DefaultEdifactMessageReader implements EdifactMessageReader {
     public List<String> readMessage() {
         List<String> lines = null;
         boolean headerStarted = false;
+
+        //TODO remove this, its only for testing
+        if(alreadyRead) return null;
+
 
         String str = null;
         while(scanner.hasNext()) {
@@ -53,6 +59,7 @@ public class DefaultEdifactMessageReader implements EdifactMessageReader {
 
             if(StringUtils.startsWithIgnoreCase(str, "UNT")) {
                 log.debug("Reached Message Trailer");
+                alreadyRead = true;
                 break;
             }
 
@@ -60,6 +67,7 @@ public class DefaultEdifactMessageReader implements EdifactMessageReader {
                 log.debug("Finished reading file");
                 return lines;
             }
+
         }
 
         log.debug("Returning lines [" + (CollectionUtils.isEmpty(lines) ? 0 : lines.size()) + "]");

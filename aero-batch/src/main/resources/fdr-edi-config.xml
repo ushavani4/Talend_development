@@ -24,6 +24,7 @@
                 </components>
             </field>
         </headerSegment>
+        <!-- Segment group 2 - FDR -->
         <segmentGroup id="sg2" property-name="segmentGroup" path="/edi-mapping/container">
             <segment id="fdr-00.2.17" code="FDR" type="com.aero.ic.fdr.message.FDRMessage" minOccurs="1" maxOccurs="1" path="/edi-mapping/container/segmentGroup[@id='sg2']">
                 <field property-name="outBoundCarrier" type="com.aero.ic.fdr.message.OutBoundCarrier" minOccurs="1" maxOccurs="1">
@@ -117,7 +118,7 @@
                                 <component property-name="terminalDesignator1" type="java.lang.String"/>
                             </components>
                         </field>
-                        <segment property-name="scheduledTiming" minOccurs="0" maxOccurs="1" id="dat-00.2.19" code="DAT" type="com.aero.ic.fdr.message.dat.DAT" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg3']/segment[@id='apd-01.2.12']">
+                        <segment property-name="scheduledTiming" minOccurs="0" maxOccurs="1" id="dat-apd-00.2.19" code="DAT" type="com.aero.ic.fdr.message.dat.DatApd" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg3']/segment[@id='apd-01.2.12']">
                             <field type="com.aero.ic.fdr.message.dat.DateAndTimeDetails" property-name="dateAndTimeDetails" minOccurs="0" maxOccurs="99">
                                 <components>
                                     <component property-name="qualifier" type="java.lang.String"/>
@@ -216,7 +217,7 @@
                                         <component property-name="ssrThreshold" type="java.lang.String"/>
                                     </components>
                                 </field>
-                                <segment property-name="ssrCounter" minOccurs="0" maxOccurs="1" id="eqn-98.1.21" code="EQN" type="com.aero.ic.fdr.message.eqn.EQN" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg3']/segment[@id='apd-01.2.12']/segmentGroup[@id='sg4']/segment[@id='ssr-02.1.18']">
+                                <segment property-name="ssrCounter" minOccurs="0" maxOccurs="1" id="eqn-98.1.21" code="EQN" type="com.aero.ic.fdr.message.eqn.EqnApd" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg3']/segment[@id='apd-01.2.12']/segmentGroup[@id='sg4']/segment[@id='ssr-02.1.18']">
                                     <field type="com.aero.ic.fdr.message.eqn.NumberOfUnitsDetails" property-name="numberOfUnitsDetails" minOccurs="0" maxOccurs="99">
                                         <components>
                                             <component property-name="numberOfUnits" type="java.lang.String"/>
@@ -288,10 +289,96 @@
                                         </components>
                                     </field>
                                 </segment>
+
+                                <segment property-name="legCabinCounters" minOccurs="0" maxOccurs="1" id="eqn-05.1.17" code="EQN" type="com.aero.ic.fdr.message.eqn.EqnEqi" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg3']/segment[@id='apd-01.2.12']/segmentGroup[@id='sg5']/segment[@id='eqi-00.1.16']">
+                                    <field type="com.aero.ic.fdr.message.eqn.NumberOfUnitsDetails" property-name="numberOfUnitsDetails" minOccurs="0" maxOccurs="99">
+                                        <components>
+                                            <component property-name="numberOfUnits" type="java.lang.String"/>
+                                            <component property-name="numberOfUnitsQualifier" type="java.lang.String"/>
+                                        </components>
+                                    </field>
+                                </segment>
+
+                                <segment property-name="cabinAvailabilities" minOccurs="1" maxOccurs="1" id="cba-06.1.13" code="CBA" type="com.aero.ic.fdr.message.eqi.CBA" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg3']/segment[@id='apd-01.2.12']/segmentGroup[@id='sg5']/segment[@id='eqi-00.1.16']">
+                                    <field type="java.lang.String" property-name="upr" minOccurs="1" maxOccurs="1"/>
+                                    <field type="java.lang.String" property-name="bookingsCounter" minOccurs="1" maxOccurs="1"/>
+                                    <field type="java.lang.String" property-name="netAvailability" minOccurs="1" maxOccurs="1"/>
+                                    <field type="java.lang.String" property-name="grossAvailability" minOccurs="1" maxOccurs="1"/>
+                                    <field type="java.lang.String" property-name="acp" minOccurs="1" maxOccurs="1"/>
+                                    <field type="java.lang.String" property-name="expectedToBoard" minOccurs="1" maxOccurs="1"/>
+                                    <field type="java.lang.String" property-name="staffStandbyCounter" minOccurs="1" maxOccurs="1"/>
+                                    <field type="java.lang.String" property-name="waitlistBookingsCounter" minOccurs="1" maxOccurs="1"/>
+                                    <field type="java.lang.String" property-name="groupBookingsCounter" minOccurs="1" maxOccurs="1"/>
+                                </segment>
+
+                                <segment property-name="revenueBucket" minOccurs="0" maxOccurs="9999" id="buc-06.1.5" code="BUC" type="com.aero.ic.fdr.message.eqi.BUC" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg3']/segment[@id='apd-01.2.12']/segmentGroup[@id='sg5']/segment[@id='eqi-00.1.16']">
+                                    <field type="com.aero.ic.fdr.message.eqn.NumberOfUnitsDetails" property-name="numberOfUnitsDetails" minOccurs="0" maxOccurs="99">
+                                        <components>
+                                            <component property-name="yieldRangeUpperValue" type="java.lang.String"/>
+                                            <component property-name="availabilityConstraint" type="java.lang.String"/>
+                                            <component property-name="deltaSeatsEquivalent" type="java.lang.String"/>
+                                            <component property-name="av1" type="java.lang.String"/>
+                                            <component property-name="av2" type="java.lang.String"/>
+                                            <component property-name="av3" type="java.lang.String"/>
+                                            <component property-name="yieldRangeLowerValue" type="java.lang.String"/>
+                                            <component property-name="subclassId" type="java.lang.String"/>
+                                            <component property-name="numberOfSeatsTaken" type="java.lang.String"/>
+                                            <component property-name="seatIndex" type="java.lang.String"/>
+                                        </components>
+                                    </field>
+                                </segment>
+                                <segment property-name="dcsCounters" minOccurs="0" maxOccurs="1" id="eqn-05.1.10" code="EQN" type="com.aero.ic.fdr.message.eqn.DcsCounters" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg3']/segment[@id='apd-01.2.12']/segmentGroup[@id='sg5']/segment[@id='eqi-00.1.16']">
+                                    <field type="com.aero.ic.fdr.message.eqn.NumberOfUnitsDetails" property-name="numberOfUnitsDetails" minOccurs="0" maxOccurs="99">
+                                        <components>
+                                            <component property-name="numberOfUnits" type="java.lang.String"/>
+                                            <component property-name="numberOfUnitsQualifier" type="java.lang.String"/>
+                                        </components>
+                                    </field>
+                                </segment>
                             </segment>
                         </segmentGroup>
                     </segment>
                 </segmentGroup>
+
+                <!-- Segment Group 6 - ODI 0 - M 45, minimum 1 and max 45 repetition of ODI-->
+                <segmentGroup id="sg6" property-name="odiGroup"  path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']">
+
+                    <segment minOccurs="1" maxOccurs="1" id="odi-01.2.17" code="ODI" type="com.aero.ic.fdr.message.odi.ODI" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']">
+                        <field minOccurs="1" maxOccurs="1" type="java.lang.String" property-name="departureCityCode"/>
+                        <field minOccurs="1" maxOccurs="1" type="java.lang.String" property-name="arrivalCityCode"/>
+
+                        <!-- child segments -->
+                        <segment property-name="segmentTiming" minOccurs="0" maxOccurs="1" id="dat-odi-00.2.19" code="DAT" type="com.aero.ic.fdr.message.dat.DatOdi" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']">
+                            <field type="com.aero.ic.fdr.message.dat.DateAndTimeDetails" property-name="dateAndTimeDetails" minOccurs="0" maxOccurs="99">
+                                <components>
+                                    <component property-name="qualifier" type="java.lang.String"/>
+                                    <component property-name="date" type="java.lang.String"/>
+                                    <component property-name="time" type="java.lang.String"/>
+                                    <component property-name="delayInformation" type="java.lang.String"/>
+                                    <component property-name="timeOffset" type="java.lang.String"/>
+                                    <component property-name="timeOffset" type="java.lang.String"/>
+                                    <component property-name="involvedLocation" type="java.lang.String"/>
+                                </components>
+                            </field>
+                        </segment>
+
+                        <segment minOccurs="1" maxOccurs="1" id="stx-00.2.7" code="STX" type="com.aero.ic.fdr.message.stx.StxOdi" property-name="segmentFlags" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']">
+                            <field property-name="statusInformation" type="com.aero.ic.fdr.message.StatusInformation" minOccurs="1" maxOccurs="99">
+                                <components>
+                                    <component type="java.lang.String" property-name="statusIndicator"/>
+                                    <component type="java.lang.String" property-name="actionRequest"/>
+                                    <component type="java.lang.String" property-name="type"/>
+                                    <component type="java.lang.String" property-name="freeText"/>
+                                </components>
+                            </field>
+                        </segment>
+                        
+                        <segmentGroup id="sg7" property-name="sciGroup" path="/edi-mapping/container/segmentGroup[@id='sg2']/segment[@id='fdr-00.2.17']/segmentGroup[@id='sg6']/segment[@id='odi-01.2.17']">
+                            
+                        </segmentGroup>
+                    </segment>
+                </segmentGroup>
+
             </segment>
         </segmentGroup>
         <trailerSegment id="unt" code="UNT" minOccurs="1" maxOccurs="1" trailer="true" type="com.aero.ic.message.base.trailer.MessageTrailer" property-name="messageTrailer" path="/edi-mapping/container">

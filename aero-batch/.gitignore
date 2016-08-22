@@ -1,5 +1,5 @@
 drop-zone/*
-logs
+logs/*
 out-zone/*
 *.iml
 .idea

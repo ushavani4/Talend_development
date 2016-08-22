@@ -33,6 +33,16 @@ public class FDRMessage extends EdifactSegment {
 
     private EdifactSegmentGroup apdGroup;
 
+    private EdifactSegmentGroup odiGroup;
+
+    public EdifactSegmentGroup getOdiGroup() {
+        return odiGroup;
+    }
+
+    public void setOdiGroup(EdifactSegmentGroup odiGroup) {
+        this.odiGroup = odiGroup;
+    }
+
     public EdifactSegmentGroup getApdGroup() {
         return apdGroup;
     }

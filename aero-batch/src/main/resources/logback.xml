@@ -22,7 +22,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.aero" level="INFO"/>
+    <logger name="com.aero" level="DEBUG"/>
     <!--<logger name="com.aero.ic.batch.mapper.EdifactMessageMapper" level="TRACE"/>-->
     <logger name="org.springframework.batch" level="INFO"/>
 
